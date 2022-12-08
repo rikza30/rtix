@@ -5,9 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Konser extends Model
+class Buy extends Model
 {
     protected $fillable =[
-        'title','class','description','artist','date','price'
+        'Nama','NoHp','Email','Tittle','Artist','Class','Jumlah'
     ];
 }

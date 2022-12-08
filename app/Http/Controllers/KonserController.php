@@ -14,8 +14,20 @@ class KonserController extends Controller
      */
     public function index()
     {
-        $konser = Konser::all();
-        return $konser;
+        $konser = Konser::get();
+
+        if (count($konser) > 0) {
+            return response()->json([
+                'code' => 200,
+                'data konser' => 'Daftar Konser ',
+                'data' => $konser
+            ], 200);
+        }
+
+        return response()->json([
+            'code' => 404,
+            'data' => 'Daftar Konser Belum Tersedia'
+        ], 404);
     }
 
     /**
@@ -29,9 +41,11 @@ class KonserController extends Controller
         {
             $table = Konser::create([
                 "title" => $request->title,
+                "class" => $request->class,
                 "description" => $request->description,
                 "artist" => $request->artist,
-                "date" => $request->date
+                "date" => $request->date,
+                "price" => $request->price
             ]);
 
             return response()->json([
@@ -50,7 +64,7 @@ class KonserController extends Controller
      */
     public function show($artist)
     {
-        $konser = konser::where('artist', $artist)->first();
+        $konser = konser::where('artist', $artist)->get();
         if ($konser) {
             return response()->json([
                 'status' => 200,
@@ -60,7 +74,25 @@ class KonserController extends Controller
         } else {
             return response()->json([
                 'status' => 404,
-                'message' => 'Konser ' . $artist . '  tidak ditemukan'
+                'message' => 'Konser ' . $artist . '  Tidak Ditemukan'
+            ], 404);
+        }
+    }
+
+
+    public function lihat($id)
+    {
+        $konser = konser::find($id);
+        if ($konser) {
+            return response()->json([
+                'status' => 200,
+                'data' => $konser
+
+            ], 200);
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Konser id ' . $id . '  tidak ditemukan'
             ], 404);
         }
     }
@@ -77,9 +109,11 @@ class KonserController extends Controller
         $konser = konser::find($id);
         if($konser){
             $konser->title = $request->title ? $request->title : $konser->title;
+            $konser->class = $request->class ? $request->class : $konser->class;
             $konser->description = $request->description ? $request->description : $konser->description;
             $konser->artist = $request->artist ? $request->artist : $konser->artist;
             $konser->date = $request->date ? $request->date : $request->date;
+            $konser->price = $request->price ? $request->price : $request->price;
             $konser->save();
             return response()->json([
                 'status' => 200,

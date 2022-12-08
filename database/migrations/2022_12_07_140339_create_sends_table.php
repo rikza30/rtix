@@ -13,14 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('konsers', function (Blueprint $table) {
+        Schema::create('sends', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->string('class');
-            $table->string('description');
-            $table->string('artist');
-            $table->string('date');
-            $table->string('price');
+            $table->string('Nama');
+            $table->string('KodePembayaran');
+            $table->string('Nominal');
             $table->timestamps();
         });
     }
@@ -32,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('konser');
+        Schema::dropIfExists('sends');
     }
 };
